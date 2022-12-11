@@ -18,13 +18,21 @@ export const Form = (props) => {
         }
     }
 
+    // Agar cursor selalu ada diakhir input
+    const focus = (e) => {
+        let value = e.target.value
+        e.target.setSelectionRange(value.length, value.length)
+        e.target.focus()
+        props.setFocus(e.target.id)
+    }
+
     return (
         <div>
-            <form>
+            <form className='text-center'>
                 {props.rowForm.map((i) => 
                     <div id={"form-"+i} key={"form-"+i}>
                         {props.colForm.map((j) => 
-                            <input className='value' key={i+j} onChange={(e) => change(e)} id={i+j} disabled={props.now === i ? false : true} onFocus={(e) => props.setFocus(e.target.id)} inputMode={'none'}/>
+                            <input className='cursor-pointer value h-14 m-1 w-[10%] text-transparent text-shadow text-center text-2xl bg-green-500 rounded font-medium' key={i+j} onChange={(e) => change(e)} id={i+j} disabled={props.now === i ? false : true} onClick={(e) => focus(e)} inputMode={'none'} style={{animation: `fadeInAnimation ease ${2+j/10}s`}}/>
                         )}
                         <br/>
                     </div>

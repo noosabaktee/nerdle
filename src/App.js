@@ -3,56 +3,80 @@ import { useState, useEffect } from 'react';
 import { Form } from './Form';
 import { equation } from './Method'
 import Keyboard from './Keyboard';
+import { Modal } from './Modal';
+import { Timer } from './Timer';
+import { Alert } from './Alert';
 
 
 function App() {
-    const defaultColor = "#989484"
     const colorList = {"green":"#398874","pink":"#820458","black":"#161803"}
     const rowForm = ['a','b','c','d','e','f']
     const colForm = ['1','2','3','4','5','6','7','8']
     const [eq,setEq] = useState(equation()) // Gunakan state agar ketika enter tidak rubah
-    let [color,setColor] = useState({"a":[],"b":[],"c":[],"d":[],"e":[],"f":[]})
-    let [message,setMessage] = useState("")
-    let [win,setWin] = useState(false)
-    let [input,setInput] = useState([0,0,0,0,0,0,0,0])
-    let [focus,setFocus] = useState("a1")
+    const [color,setColor] = useState({"a":[],"b":[],"c":[],"d":[],"e":[],"f":[]})
+    const [message,setMessage] = useState(false)
+    const [win,setWin] = useState(0) // 0 = null | 1 = win | -1 = lose
+    const [play,setPlay] = useState(true)
+    const [input,setInput] = useState([0,0,0,0,0,0,0,0])
+    const [focus,setFocus] = useState("a1")
+    const [showModal, setShowModal] = useState(false);
 
     //Sekarang kita sedang berada dibaris pertama
     //Gunakan state karena kita akan merender ulang untuk enable sebuah input
     let [now,setNow] = useState(rowForm[0])
 
-    //Fungsi update input untuk file Form
-    // const setInput = (key,value) =>{
-    //   input[key] = value
-    //   console.log(input)
-    // }
+
+    // Timer
+    const [minute,setMinute] = useState(0)
+    const [second,setSecond] = useState(0)
 
     useEffect(() => {
-        // Warna baru untuk input form
         // Focus baris baru ketika ketika enter
         let focusTo = rowForm[rowForm.indexOf(now)]
         document.getElementById(focusTo+"1").focus()
+        // Warna baru untuk input form
         Object.entries(color).map( ([key, value]) => {
-            for (let i = 0; i < value.length; i++) {
-                let bg = "black"
-                if(value[i] == 2){
-                    bg = "green"
-                }else if(value[i] == 1){
-                    bg = "yellow"
-                }
-                document.getElementById(key+(i+1)).style.backgroundColor = bg
+          value.map((color,i) => {
+            let bg = colorList.black
+            if(color == 2){
+                bg = colorList.green
+            }else if(color == 1){
+                bg = colorList.pink
             }
+            document.getElementById(key+(i+1)).style.backgroundColor = bg
+          })
         })
-    }, [eq,color,message,win,input,now])
-    
+        // if(win == 1 || win == -1){
+        //   setShowModal(true)
+        // }
+    }, [eq,color,message,play,input,now,showModal])
 
   return (
-    <div className="App">
-      <h1 className='text-center'>Nerdle</h1>
-      <h2>{eq}</h2>
-      <h3>{message}</h3>
-      <Form input={input} now={now} rowForm={rowForm} colForm={colForm} setFocus={setFocus} setInput={setInput}/>
-      <Keyboard rowForm={rowForm} win={win} input={input} eq={eq} setWin={setWin} setColor={setColor} color={color} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput}/>
+    <div className="App flex my-3">
+      <div className='w-auto mx-auto xl:w-2/5'>
+        <div className='mx-3 my-3 sm:px-2'>
+          <Timer play={play} second={second} setSecond={setSecond} minute={minute} setMinute={setMinute}/>
+          <h1 className='font-semibold text-3xl'>nerdle
+            { play == false &&
+              <button className="btn w-fit" onClick={() => window.location.reload(false)}>🔄</button>
+            }
+          </h1>
+        </div>
+        {showModal ? (
+          <Modal second={second} minute={minute} win={win} color={color} colorList={colorList} setShowModal={setShowModal}/>
+        ) : null}
+        <div>
+          <Form input={input} now={now} rowForm={rowForm} colForm={colForm} setFocus={setFocus} setInput={setInput}/>
+          <Keyboard setShowModal={setShowModal} setWin={setWin} rowForm={rowForm} play={play} input={input} eq={eq} setPlay={setPlay} setColor={setColor} color={color} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput}/>          
+          {message && 
+          <Alert message={message} setMessage={setMessage}/>
+          }
+        </div>
+        {/* Footer */}
+        <footer className='text-center my-5'>
+          <b>Made with ❤️ by</b> <a href='https://www.instagram.com/noosabaktee/' target={"_blank"} className='text-green-500 text-shadow'>Rama Nusa Bakti</a>
+        </footer>
+      </div>
     </div>
   );
 }

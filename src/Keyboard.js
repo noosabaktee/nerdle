@@ -4,7 +4,7 @@ import { correct, validation } from './Method'
 const Keyboard = (props) => {
         
     //Props
-    let {rowForm,win,input,eq,setWin,setColor,color,setMessage,setNow,now,focus,setFocus,setInput} = props
+    let {setShowModal,setWin,rowForm,play,input,eq,setPlay,setColor,color,setMessage,setNow,now,focus,setFocus,setInput} = props
     const key = ['0','1','2','3','4','5','6','7','8','9','+','-','*','/','=']
 
     // fungsi handle click
@@ -29,45 +29,59 @@ const Keyboard = (props) => {
     // fungsi handle submit
     const handleSubmit = () => {
         // Jika sudah menang maka tidak bisa main lagi
-        if(win == true){
+        if(play == false){
             return false
         }
         // Sebelum pindah validasi dulu
         let valid = validation(input.join(""))
+        console.log(input)
         let cor = correct(eq,input.join(""))
         if(valid){
-            // Cek jawaban 
-            if(!cor.includes(0) || !cor.includes(1)){
+            // Cek jawaban
+            console.log(cor) 
+            if(!cor.includes(0) && !cor.includes(1)){
                 // BENAR!!!
                 // Disable input
                 for (let i = 0; i < input.length; i++) {
                     document.getElementById(now+(i+1)).disabled = true
                 }
-                setMessage("HORE!!!!!")
-                setWin(true)
+                setWin(1)
+                setPlay(false)
+                setShowModal(true)
+                color[now] = correct(eq,input.join("")) 
+                setColor(color) 
             }else{
                 // SALAH!!!
                 // Ganti satu baris ke bawah
                 if (now != 'f'){
                     let nextRow = rowForm[rowForm.indexOf(now) + 1]
                     setNow(nextRow)
+                }else{
+                    // KALAH!!!!
+                    setPlay(false)
+                    setShowModal(true)
                 }
-            }
-        color[now] = correct(eq,input.join("")) 
-        setColor(color)    
+                setWin(-1)
+                color[now] = correct(eq,input.join("")) 
+                setColor(color) 
+            }   
         }else{
-            setMessage("Masih belum lengkap")
+            setMessage(true)
         }
-        setInput([0,0,0,0,0,0,0,0])
     }
 
     return (
-        <div>
+        <div className='mt-2 text-center'>
             {key.map((i) =>
-                <button type='button' key={"b-"+i} value={i} onClick={(e) => handleClick(e)}>{i}</button>
+                <React.Fragment key={i}>
+                    {i == '+' && 
+                        <br/>
+                    }
+                    <button type='button' className='btn' key={"b-"+i} value={i} onClick={(e) => handleClick(e)}>{i}</button>
+                </React.Fragment>
             )}
-            <button id='submit-btn' onClick={handleSubmit}>enter</button>
-            <button id='delete-btn' onClick={handleDelete}>Delete</button>
+            <button id='submit-btn' className='btn w-[21%]' onClick={handleSubmit}>Enter</button>
+            <button id='delete-btn' className='btn w-[21%]' onClick={handleDelete}>Delete</button>
         </div>
     )
 }

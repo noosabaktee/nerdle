@@ -77,11 +77,11 @@ const Keyboard = (props) => {
                     {i == '+' && 
                         <br/>
                     }
-                    <button type='button' className='btn' key={"b-"+i} value={i} onClick={(e) => handleClick(e)}>{i}</button>
+                    <button type='button' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[8.5%]' key={"b-"+i} value={i} onClick={(e) => handleClick(e)}>{i}</button>
                 </React.Fragment>
             )}
-            <button id='submit-btn' className='btn w-[21%]' onClick={handleSubmit}>Enter</button>
-            <button id='delete-btn' className='btn w-[21%]' onClick={handleDelete}>Delete</button>
+            <button id='submit-btn' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[22%] sm:w-[21%] ' onClick={handleSubmit}>Enter</button>
+            <button id='delete-btn' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[22%] sm:w-[21%] ' onClick={handleDelete}>Delete</button>
         </div>
     )
 }

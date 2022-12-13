@@ -57,9 +57,9 @@ function App() {
   return (
     <div className="App flex my-3">
       <div className='w-auto mx-auto xl:w-2/5'>
-        <div className='mx-3 my-3 sm:px-2'>
+        <div className='mx-2 sm:mx-1 my-3'>
           <Timer play={play} second={second} setSecond={setSecond} minute={minute} setMinute={setMinute}/>
-          <div className='font-bold text-4xl inline mr-2'>Nerdle</div>
+          <div className='font-bold text-4xl inline mr-2'>nerdle</div>
           <button className='text-2xl bg-transparent' onClick={() => setShowRule(true)}>📋</button>
           { play == false &&
             <button className="text-2xl ml-1 bg-transparent" onClick={() => window.location.reload(false)}>🔄</button>

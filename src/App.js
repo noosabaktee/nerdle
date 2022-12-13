@@ -6,6 +6,7 @@ import Keyboard from './Keyboard';
 import { Modal } from './Modal';
 import { Timer } from './Timer';
 import { Alert } from './Alert';
+import { Rule } from './Rule';
 
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
     const [play,setPlay] = useState(true)
     const [input,setInput] = useState([0,0,0,0,0,0,0,0])
     const [focus,setFocus] = useState("a1")
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false)
+    const [showRule,setShowRule] = useState(false)
+
 
     //Sekarang kita sedang berada dibaris pertama
     //Gunakan state karena kita akan merender ulang untuk enable sebuah input
@@ -56,12 +59,15 @@ function App() {
       <div className='w-auto mx-auto xl:w-2/5'>
         <div className='mx-3 my-3 sm:px-2'>
           <Timer play={play} second={second} setSecond={setSecond} minute={minute} setMinute={setMinute}/>
-          <h1 className='font-semibold text-3xl'>nerdle
-            { play == false &&
-              <button className="btn w-fit" onClick={() => window.location.reload(false)}>🔄</button>
-            }
-          </h1>
+          <div className='font-bold text-4xl inline mr-2'>Nerdle</div>
+          <button className='text-2xl bg-transparent' onClick={() => setShowRule(true)}>📋</button>
+          { play == false &&
+            <button className="text-2xl ml-1 bg-transparent" onClick={() => window.location.reload(false)}>🔄</button>
+          }
         </div>
+        {showRule && 
+          <Rule setShowRule={setShowRule}/>
+        }
         {showModal ? (
           <Modal second={second} minute={minute} win={win} color={color} colorList={colorList} setShowModal={setShowModal}/>
         ) : null}

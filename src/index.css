@@ -27,3 +27,10 @@
         text-shadow: 0 0 0 white;
     }
 }
+
+@layer base {
+    ul, ol {
+      list-style: revert;
+    }
+  }
+  

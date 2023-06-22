@@ -15,13 +15,14 @@ function App() {
     const colForm = ['1','2','3','4','5','6','7','8']
     const [eq,setEq] = useState(equation()) // Gunakan state agar ketika enter tidak rubah
     const [color,setColor] = useState({"a":[],"b":[],"c":[],"d":[],"e":[],"f":[]})
-    const [message,setMessage] = useState(false)
+    const [alert,setAlert] = useState(false) // if true show alert
+    const [message,setMessage] = useState(false) // message for alert
     const [win,setWin] = useState(0) // 0 = null | 1 = win | -1 = lose
-    const [play,setPlay] = useState(true)
-    const [input,setInput] = useState([0,0,0,0,0,0,0,0])
-    const [focus,setFocus] = useState("a1")
-    const [showModal, setShowModal] = useState(false)
-    const [showRule,setShowRule] = useState(false)
+    const [play,setPlay] = useState(true) 
+    const [input,setInput] = useState([0,0,0,0,0,0,0,0]) // Input calculation
+    const [focus,setFocus] = useState("a1") // Focus for input, col = number & row = alphabet
+    const [showModal, setShowModal] = useState(false) // Modal for win
+    const [showRule,setShowRule] = useState(false) // Modal for rule
 
 
     //Sekarang kita sedang berada dibaris pertama
@@ -52,7 +53,7 @@ function App() {
         // if(win == 1 || win == -1){
         //   setShowModal(true)
         // }
-    }, [eq,color,message,play,input,now,showModal])
+    }, [eq,color,alert,play,input,now,showModal])
 
   return (
     <div className="App flex my-3">
@@ -73,9 +74,9 @@ function App() {
         ) : null}
         <div>
           <Form input={input} now={now} rowForm={rowForm} colForm={colForm} setFocus={setFocus} setInput={setInput}/>
-          <Keyboard setShowModal={setShowModal} setWin={setWin} rowForm={rowForm} play={play} input={input} eq={eq} setPlay={setPlay} setColor={setColor} color={color} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput}/>          
-          {message && 
-          <Alert message={message} setMessage={setMessage}/>
+          <Keyboard setShowModal={setShowModal} setWin={setWin} rowForm={rowForm} play={play} input={input} eq={eq} setPlay={setPlay} setColor={setColor} color={color} setAlert={setAlert} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput}/>          
+          {alert && 
+          <Alert alert={alert} setAlert={setAlert} message={message}/>
           }
         </div>
         {/* Footer */}

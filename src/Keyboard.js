@@ -4,7 +4,7 @@ import { correct, validation } from './Method'
 const Keyboard = (props) => {
         
     //Props
-    let {setShowModal,setWin,rowForm,play,input,eq,setPlay,setColor,color,setMessage,setNow,now,focus,setFocus,setInput} = props
+    let {setShowModal,setWin,rowForm,play,input,eq,setPlay,setColor,color,setAlert,setNow,now,focus,setFocus,setInput} = props
     const key = ['0','1','2','3','4','5','6','7','8','9','+','-','*','/','=']
 
     // fungsi handle click
@@ -33,41 +33,39 @@ const Keyboard = (props) => {
             return false
         }
         // Sebelum pindah validasi dulu
-        let valid = validation(input.join(""))
+        let valid = validation(input.join(""), props.setMessage)
+        if(!valid){
+            return props.setAlert(true)
+        }
         // console.log(input)
         let cor = correct(eq,input.join(""))
-        if(valid){
-            // Cek jawaban
-            console.log(cor) 
-            if(!cor.includes(0) && !cor.includes(1)){
-                // BENAR!!!
-                // Disable input
-                for (let i = 0; i < input.length; i++) {
-                    document.getElementById(now+(i+1)).disabled = true
-                }
-                setWin(1)
+        // Cek jawaban
+        if(!cor.includes(0) && !cor.includes(1)){
+            // BENAR!!!
+            // Disable input
+            for (let i = 0; i < input.length; i++) {
+                document.getElementById(now+(i+1)).disabled = true
+            }
+            setWin(1)
+            setPlay(false)
+            setShowModal(true)
+            color[now] = correct(eq,input.join("")) 
+            setColor(color) 
+        }else{
+            // SALAH!!!
+            // Ganti satu baris ke bawah
+            if (now != 'f'){
+                let nextRow = rowForm[rowForm.indexOf(now) + 1]
+                setNow(nextRow)
+            }else{
+                // KALAH!!!!
                 setPlay(false)
                 setShowModal(true)
-                color[now] = correct(eq,input.join("")) 
-                setColor(color) 
-            }else{
-                // SALAH!!!
-                // Ganti satu baris ke bawah
-                if (now != 'f'){
-                    let nextRow = rowForm[rowForm.indexOf(now) + 1]
-                    setNow(nextRow)
-                }else{
-                    // KALAH!!!!
-                    setPlay(false)
-                    setShowModal(true)
-                }
-                setWin(-1)
-                color[now] = correct(eq,input.join("")) 
-                setColor(color) 
-            }   
-        }else{
-            setMessage(true)
-        }
+            }
+            setWin(-1)
+            color[now] = correct(eq,input.join("")) 
+            setColor(color) 
+        }   
     }
 
     return (

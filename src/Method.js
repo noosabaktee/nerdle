@@ -28,20 +28,31 @@ const equation = () => {
     return value
 }
 
-const validation = (input) => {
+const validation = (input, setMessage) => {
     // Ubah persamaan menjadi list dengan pemisah "="
     let split = input.split("=")
-    // Cek jika persamaan mengandung "=" dan jika persamaan memiliki panjang 8 karakter dan jika hasil persamaan adalah sama dengan hasil
+
+    // Ini pake try catch karena jika memasukkan nilai 0 setelah tanda operasi maka akan terjadi error pada fungsi eval
     try{
-        if(input.includes("=") && input.replace(" ","").length == 8 && eval(split[0]) == parseInt(split[1])){
-            return true
-        }else{
-            return false
-        }
+        eval(split[0])
     }catch(e){
-        // Ini pake try catch karena jika memasukkan nilai 0 setelah tanda operasi akan error
-        return false
+        return setMessage("Tidak boleh diawali dengan angka 0!")
     }
+
+    if(!input.includes("=")){
+        return setMessage('Tebakan harus mengandung "="!')
+    }
+
+    if(input.replace(" ","").length != 8){
+        return setMessage("Kolom harus terisi semua!")
+    }
+    
+    if(eval(split[0]) != parseInt(split[1])){
+        return setMessage("Hasil dari tebakan anda salah!")
+    }
+
+    return true
+
 }
 
 const correct = (equation,inputUser) => {

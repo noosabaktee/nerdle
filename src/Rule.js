@@ -24,9 +24,12 @@ export const Rule = (props) => {
                     <div className='pb-3'>
                     - Setiap tebakan adalah perhitungan <br/> 
                     - Anda dapat menggunakan 0 1 2 3 4 5 6 7 8 9 + - * / atau = <br/>
+                    - Semua kolom harus terisi <br/>
                     - Harus mengandung satu "=" <br/>
                     - Hanya boleh memiliki angka di sebelah kanan "=", bukan perhitungan lain <br/>
-                    - Urutan operasi standar berlaku, jadi hitung * dan / sebelum + dan - misalnya 3+2*5=13 bukan 25 <br/>
+                    - Tidak boleh didahului dengan angka nol "0", misal 01+01=02 <br/>
+                    - Urutan operasi standar berlaku, jadi hitung * dan / sebelum + dan -, misal 3+2*5 hasilnya 13 bukan 25 <br/>
+                    - Pastikan tebakan anda dapat dihitung <br/>
                     - Jika ubin berwarna hijau artinya tebakan ada di solusi dan diposisi yang benar <br/>
                     - Jika ubin berwarna merah muda artinya tebakan ada di solusi tetapi dalam posisi yang salah <br/>
                     - Jika ubin bewarna hitam artinya tebakan tidak ada disolusi

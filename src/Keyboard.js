@@ -34,7 +34,7 @@ const Keyboard = (props) => {
         }
         // Sebelum pindah validasi dulu
         let valid = validation(input.join(""))
-        console.log(input)
+        // console.log(input)
         let cor = correct(eq,input.join(""))
         if(valid){
             // Cek jawaban

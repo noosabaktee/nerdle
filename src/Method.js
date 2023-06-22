@@ -32,9 +32,14 @@ const validation = (input) => {
     // Ubah persamaan menjadi list dengan pemisah "="
     let split = input.split("=")
     // Cek jika persamaan mengandung "=" dan jika persamaan memiliki panjang 8 karakter dan jika hasil persamaan adalah sama dengan hasil
-    if(input.includes("=") && input.length == 8 && eval(split[0]) == parseInt(split[1])){
-        return true
-    }else{
+    try{
+        if(input.includes("=") && input.replace(" ","").length == 8 && eval(split[0]) == parseInt(split[1])){
+            return true
+        }else{
+            return false
+        }
+    }catch(e){
+        // Ini pake try catch karena jika memasukkan nilai 0 setelah tanda operasi akan error
         return false
     }
 }

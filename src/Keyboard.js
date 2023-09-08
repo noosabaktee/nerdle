@@ -1,5 +1,5 @@
 import React from 'react'
-import { correct, validation } from './Method'
+import handleSubmit from './handleSubmit'
 
 const Keyboard = (props) => {
         
@@ -23,49 +23,11 @@ const Keyboard = (props) => {
         document.getElementById(focus).value = ""
         input[focus[1] - 1] = 0
         setInput(input)
-        console.log(input)
     }
 
     // fungsi handle submit
-    const handleSubmit = () => {
-        // Jika sudah menang maka tidak bisa main lagi
-        if(play == false){
-            return false
-        }
-        // Sebelum pindah validasi dulu
-        let valid = validation(input.join(""), props.setMessage)
-        if(!valid){
-            return props.setAlert(true)
-        }
-        // console.log(input)
-        let cor = correct(eq,input.join(""))
-        // Cek jawaban
-        if(!cor.includes(0) && !cor.includes(1)){
-            // BENAR!!!
-            // Disable input
-            for (let i = 0; i < input.length; i++) {
-                document.getElementById(now+(i+1)).disabled = true
-            }
-            setWin(1)
-            setPlay(false)
-            setShowModal(true)
-            color[now] = correct(eq,input.join("")) 
-            setColor(color) 
-        }else{
-            // SALAH!!!
-            // Ganti satu baris ke bawah
-            if (now != 'f'){
-                let nextRow = rowForm[rowForm.indexOf(now) + 1]
-                setNow(nextRow)
-            }else{
-                // KALAH!!!!
-                setPlay(false)
-                setShowModal(true)
-            }
-            setWin(-1)
-            color[now] = correct(eq,input.join("")) 
-            setColor(color) 
-        }   
+    const submit = () => {
+        handleSubmit(props)
     }
 
     return (
@@ -78,7 +40,7 @@ const Keyboard = (props) => {
                     <button type='button' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[8.5%]' key={"b-"+i} value={i} onClick={(e) => handleClick(e)}>{i}</button>
                 </React.Fragment>
             )}
-            <button id='submit-btn' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[22%] sm:w-[21%] ' onClick={handleSubmit}>Enter</button>
+            <button id='submit-btn' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[22%] sm:w-[21%] ' onClick={submit}>Enter</button>
             <button id='delete-btn' className='btn h-8 sm:h-10 m-0.5 sm:m-1 w-[22%] sm:w-[21%] ' onClick={handleDelete}>Delete</button>
         </div>
     )

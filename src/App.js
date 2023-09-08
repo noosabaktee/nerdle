@@ -73,7 +73,7 @@ function App() {
           <Modal second={second} minute={minute} win={win} color={color} colorList={colorList} setShowModal={setShowModal}/>
         ) : null}
         <div>
-          <Form input={input} now={now} rowForm={rowForm} colForm={colForm} setFocus={setFocus} setInput={setInput}/>
+          <Form setShowModal={setShowModal} setWin={setWin} rowForm={rowForm} play={play} input={input} eq={eq} setPlay={setPlay} setColor={setColor} color={color} setAlert={setAlert} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput} colForm={colForm}/>
           <Keyboard setShowModal={setShowModal} setWin={setWin} rowForm={rowForm} play={play} input={input} eq={eq} setPlay={setPlay} setColor={setColor} color={color} setAlert={setAlert} setMessage={setMessage} setNow={setNow} now={now} setFocus={setFocus} focus={focus} setInput={setInput}/>          
           {alert && 
           <Alert alert={alert} setAlert={setAlert} message={message}/>
